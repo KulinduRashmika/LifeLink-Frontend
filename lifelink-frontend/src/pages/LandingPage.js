@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
+import checkIcon from "./assets/Landpage.png";
+import checkIcon2 from "./assets/Mission.png";
+
 
 const LandingPage = () => {
   return (
@@ -43,31 +46,20 @@ const LandingPage = () => {
           </div>
           <div className="hero-image">
             <div className="hero-card">
-              <div className="doctor-illustration">
-                <svg viewBox="0 0 400 400" fill="none">
-                  <rect width="400" height="400" fill="#7EC4CF" rx="20"/>
-                  <g transform="translate(80, 80)">
-                    {/* Doctor 1 */}
-                    <circle cx="60" cy="80" r="30" fill="#4A9BA8"/>
-                    <rect x="35" y="110" width="50" height="80" fill="#4A9BA8" rx="10"/>
-                    {/* Doctor 2 */}
-                    <circle cx="120" cy="80" r="30" fill="#5DB3C1"/>
-                    <rect x="95" y="110" width="50" height="80" fill="#5DB3C1" rx="10"/>
-                    {/* Doctor 3 */}
-                    <circle cx="180" cy="80" r="30" fill="#E8F5F7"/>
-                    <rect x="155" y="110" width="50" height="80" fill="#ffffff" rx="10"/>
-                    <line x1="175" y1="120" x2="185" y2="130" stroke="#7EC4CF" strokeWidth="3"/>
-                    <line x1="185" y1="120" x2="175" y2="130" stroke="#7EC4CF" strokeWidth="3"/>
-                  </g>
-                </svg>
-              </div>
-              <div className="card-badge">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                  <path d="M8 0L0 4.8v8.4h3.2V8h9.6v5.2H16V4.8L8 0z"/>
-                </svg>
-                1,200+ Lives Saved
-                <div className="badge-subtitle">Since last quarter</div>
-              </div>
+              
+              
+
+<div className="card-badge">
+  <img src={checkIcon} alt="Checkmark Icon" />
+
+  <div>
+    <strong>1,200+ Lives Saved</strong>
+    <div className="badge-subtitle">Since last quarter</div>
+  </div>
+</div>
+
+
+
             </div>
           </div>
         </div>
@@ -82,17 +74,23 @@ const LandingPage = () => {
       </section>
 
       {/* Mission Section */}
-      <section className="mission-section" id="mission">
-        <div className="mission-container">
-          <div className="mission-badge">OUR PURPOSE</div>
-          <h2 className="mission-title">Our Mission</h2>
-          <p className="mission-description">
-            Our mission is to simplify and expedite the critical gap between donors and patients. We believe that no one should die due to a lack of immediate access to blood or organ matches.
-          </p>
-          <p className="mission-description">
-            By leveraging <span className="text-highlight">smart technology</span> and <span className="text-highlight">real-time alerts</span>, we've built a system that streamlines the donation process, ensuring that help arrives exactly when and where it's needed most.
-          </p>
-          <div className="mission-features">
+<section className="mission-section" id="mission">
+  <div className="mission-container">
+
+    {/* LEFT SIDE */}
+    <div className="mission-content">
+      <div className="mission-badge">OUR PURPOSE</div>
+      <h2 className="mission-title">Our Mission</h2>
+
+      <p className="mission-description">
+        Our mission is to simplify and expedite the critical gap between donors and patients. We believe that no one should die due to a lack of immediate access to blood or organ matches.
+      </p>
+
+      <p className="mission-description">
+        By leveraging <span className="text-highlight">smart technology</span> and <span className="text-highlight">real-time alerts</span>, we've built a system that streamlines the donation process, ensuring that help arrives exactly when and where it's needed most.
+      </p>
+
+      <div className="mission-features">
             <div className="feature-item">
               <div className="feature-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -111,61 +109,50 @@ const LandingPage = () => {
               <span className="feature-text">Smart Ecosystem</span>
             </div>
           </div>
-          <div className="mission-image">
-            <svg viewBox="0 0 400 300" fill="none">
-              <rect width="400" height="300" fill="#E8F5F7" rx="15"/>
-              <g transform="translate(80, 60)">
-                <circle cx="60" cy="60" r="35" fill="#7EC4CF"/>
-                <rect x="30" y="95" width="60" height="90" fill="#7EC4CF" rx="10"/>
-                <circle cx="120" cy="60" r="35" fill="#5DB3C1"/>
-                <rect x="90" y="95" width="60" height="90" fill="#5DB3C1" rx="10"/>
-                <circle cx="180" cy="60" r="35" fill="#E8F5F7"/>
-                <rect x="150" y="95" width="60" height="90" fill="#ffffff" rx="10"/>
-              </g>
-            </svg>
-          </div>
-        </div>
-      </section>
+    </div>
 
-      {/* About Section */}
-      <section className="about-section" id="about">
-        <div className="about-container">
-          <div className="about-image">
-            <svg viewBox="0 0 300 400" fill="none">
-              <rect width="300" height="400" fill="#7EC4CF" rx="15"/>
-              <g transform="translate(40, 100)">
-                <circle cx="60" cy="60" r="35" fill="#4A9BA8"/>
-                <rect x="30" y="95" width="60" height="90" fill="#4A9BA8" rx="10"/>
-                <circle cx="120" cy="60" r="35" fill="#5DB3C1"/>
-                <rect x="90" y="95" width="60" height="90" fill="#5DB3C1" rx="10"/>
-                <circle cx="180" cy="60" r="35" fill="#E8F5F7"/>
-                <rect x="150" y="95" width="60" height="90" fill="#ffffff" rx="10"/>
-              </g>
-            </svg>
-          </div>
-          <div className="about-content">
-            <div className="about-badge">WHO WE ARE</div>
-            <h2 className="about-title">About LifeLink</h2>
-            <p className="about-description">
-              Founded in 2024, LifeLink was born from a simple yet powerful realization: technology could bridge the critical gap between life and death in emergency medical situations. What started as an effort to streamline blood donations has grown into a global network.
-            </p>
-            <p className="about-description">
-              Our commitment to healthcare is unwavering. We've safeguarded patient data, refined our algorithms and built partnerships with over 500 leading medical institutions to ensure that every blood donation and organ match is handled with the highest standards of care and urgency.
-            </p>
-          </div>
-        </div>
-      </section>
+    {/* RIGHT SIDE */}
+    <div className="mission-image">
+      <img 
+        src={checkIcon2} 
+        alt="Mission Illustration"
+      />
+    </div>
+
+  </div>
+</section>
+
+
+{/* About Section */}
+<section className="about-section" id="about">
+  <div className="about-container">
+    <div className="about-image">
+      <img src={checkIcon} alt="Landing Page Preview" />
+    </div>
+
+    <div className="about-content">
+      <div className="about-badge">WHO WE ARE</div>
+      <h2 className="about-title">About LifeLink</h2>
+      <p className="about-description">
+        Founded in 2024, LifeLink was born from a simple yet powerful realization: technology could bridge the critical gap between life and death in emergency medical situations. What started as an effort to streamline blood donations has grown into a global network.
+      </p>
+      <p className="about-description">
+        Our commitment to healthcare is unwavering. We've safeguarded patient data, refined our algorithms and built partnerships with over 500 leading medical institutions to ensure that every blood donation and organ match is handled with the highest standards of care and urgency.
+      </p>
+    </div>
+  </div>
+</section>
 
       {/* Team Section */}
       <section className="team-section">
         <div className="team-container">
           <div className="team-badge">OUR EXPERTS</div>
           <h2 className="team-title">The Minds Behind LifeLink</h2>
-          <p className="team-subtitle">A dedicated team of medical professionals and technology experts working around the clock</p>
+          <p className="team-subtitle">A Develop team of technology experts working around the clock</p>
           
           <div className="team-grid">
             <div className="team-card featured">
-              <div className="team-badge-card">MEDICAL LEAD</div>
+              <div className="team-badge-card">Team LEAD</div>
               <div className="team-avatar">
                 <svg width="80" height="80" viewBox="0 0 80 80">
                   <circle cx="40" cy="40" r="40" fill="#2196F3"/>
@@ -173,8 +160,8 @@ const LandingPage = () => {
                   <ellipse cx="40" cy="65" rx="25" ry="20" fill="white"/>
                 </svg>
               </div>
-              <h3 className="team-name">Dr. Sarah Chen</h3>
-              <p className="team-role">CHIEF EXECUTIVE<br/>OFFICER</p>
+              <h3 className="team-name">Kulindu Rashmika</h3>
+              <p className="team-role">-----------<br/></p>
             </div>
 
             <div className="team-card">
@@ -185,8 +172,8 @@ const LandingPage = () => {
                   <ellipse cx="40" cy="65" rx="25" ry="20" fill="white"/>
                 </svg>
               </div>
-              <h3 className="team-name">Marcus Thorne</h3>
-              <p className="team-role">AI/ML SPECIALIST</p>
+              <h3 className="team-name">Danuja Dewnith</h3>
+              <p className="team-role">-----------</p>
             </div>
 
             <div className="team-card">
@@ -197,8 +184,8 @@ const LandingPage = () => {
                   <ellipse cx="40" cy="65" rx="25" ry="20" fill="white"/>
                 </svg>
               </div>
-              <h3 className="team-name">Dr. James Wilson</h3>
-              <p className="team-role">MEDICAL CONSULTANT</p>
+              <h3 className="team-name">Kalpa Perera</h3>
+              <p className="team-role">-----------</p>
             </div>
 
             <div className="team-card">
@@ -209,21 +196,11 @@ const LandingPage = () => {
                   <ellipse cx="40" cy="65" rx="25" ry="20" fill="white"/>
                 </svg>
               </div>
-              <h3 className="team-name">Elena Rodriguez</h3>
-              <p className="team-role">VP HOSPITAL</p>
+              <h3 className="team-name">Bimsara Kaushal</h3>
+              <p className="team-role">-----------</p>
             </div>
 
-            <div className="team-card">
-              <div className="team-avatar">
-                <svg width="80" height="80" viewBox="0 0 80 80">
-                  <circle cx="40" cy="40" r="40" fill="#90CAF9"/>
-                  <circle cx="40" cy="35" r="15" fill="white"/>
-                  <ellipse cx="40" cy="65" rx="25" ry="20" fill="white"/>
-                </svg>
-              </div>
-              <h3 className="team-name">David Park</h3>
-              <p className="team-role">OPERATIONS DIRECTOR</p>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -280,30 +257,35 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="footer">
-        <div className="footer-container">
-          <div className="footer-brand">
-            <div className="footer-logo">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-              <span>LifeLink</span>
-            </div>
-          </div>
-          
-          <div className="footer-links">
-            <a href="#about">ABOUT US</a>
-            <a href="#privacy">PRIVACY</a>
-            <a href="#terms">TERMS</a>
-            <a href="#contact">CONTACT</a>
-          </div>
-        </div>
-        
-        <div className="footer-bottom">
-          <p>© 2024 LifeLink | Heart Donation Management System</p>
-        </div>
-      </footer>
+  <div className="footer-container">
+
+    <div className="footer-left">
+      <h3>🩵 LifeLink</h3>
+      <p>Saving lives through smart blood and organ donation technology.</p>
+    </div>
+
+    <div className="footer-links">
+      <a href="#about">ABOUT US</a>
+      <a href="#privacy">PRIVACY</a>
+      <a href="#terms">TERMS</a>
+      <a href="#contact">CONTACT</a>
+    </div>
+
+    {/* NEW CONTACT SECTION */}
+    <div className="footer-contact">
+      <h4>Contact Us</h4>
+      <p>Email: lifelink@gmail.com</p>
+      <p>Phone: 0702002700</p>
+    </div>
+
+  </div>
+
+  <div className="footer-bottom">
+    © 2024 LifeLink | Heart Donation Management System
+  </div>
+</footer>
+
     </div>
   );
 };
