@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    rememberMe: false
+    rememberMe: false,
+    userType: 'donor' // default selection
   });
+  const [error, setError] = useState('');
+
+  // Admin credentials
+  const ADMIN_CREDENTIALS = {
+    email: 'admin@lifelink.com',
+    password: 'Admin@123'
+  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -14,11 +23,34 @@ const Login = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    // Clear error when user types
+    if (error) setError('');
+  };
+
+  const handleUserTypeSelect = (type) => {
+    setFormData(prev => ({
+      ...prev,
+      userType: type
+    }));
+    // Clear error when user changes type
+    if (error) setError('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login submitted:', formData);
+    
+    // Check if credentials match admin credentials (automatic detection)
+    if (formData.email === ADMIN_CREDENTIALS.email && 
+        formData.password === ADMIN_CREDENTIALS.password) {
+      console.log('Admin login successful');
+      // Redirect to admin dashboard
+      navigate('/admin/dashboard');
+    } else {
+      // Handle other user types (donor, patient, blood bank)
+      console.log('Login submitted:', formData);
+      // Add your authentication logic here for other user types
+      // navigate(`/${formData.userType}/dashboard`);
+    }
   };
 
   return (
@@ -83,6 +115,102 @@ const Login = () => {
         .login-subtitle {
           font-size: 1rem;
           color: #666;
+        }
+
+        .user-type-section {
+          margin-bottom: 2rem;
+        }
+
+        .user-type-label {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 1rem;
+          display: block;
+          text-align: center;
+        }
+
+        .user-type-buttons {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.75rem;
+        }
+
+        .user-type-btn {
+          padding: 1rem;
+          border: 2px solid #E0E0E0;
+          background: white;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.3s;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .user-type-btn:hover {
+          border-color: #2196F3;
+          background: #F5F9FF;
+        }
+
+        .user-type-btn.active {
+          border-color: #2196F3;
+          background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+          box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+        }
+
+        .user-type-icon {
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .user-type-btn.active .user-type-icon {
+          transform: scale(1.1);
+        }
+
+        .user-type-text {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #666;
+        }
+
+        .user-type-btn.active .user-type-text {
+          color: #1976D2;
+        }
+
+        .error-message {
+          background: #FFEBEE;
+          color: #C62828;
+          padding: 0.875rem 1rem;
+          border-radius: 10px;
+          font-size: 0.875rem;
+          font-weight: 600;
+          border-left: 4px solid #C62828;
+          animation: shake 0.3s;
+        }
+
+        .info-message {
+          background: #E3F2FD;
+          color: #1565C0;
+          padding: 0.875rem 1rem;
+          border-radius: 10px;
+          font-size: 0.875rem;
+          font-weight: 500;
+          border-left: 4px solid #2196F3;
+        }
+
+        .info-message strong {
+          font-weight: 700;
+        }
+
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          75% { transform: translateX(5px); }
         }
 
         .login-form {
@@ -308,6 +436,24 @@ const Login = () => {
           .stats-grid {
             gap: 0.75rem;
           }
+
+          .user-type-buttons {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+          }
+
+          .user-type-btn {
+            padding: 0.75rem 0.5rem;
+          }
+
+          .user-type-icon {
+            width: 28px;
+            height: 28px;
+          }
+
+          .user-type-text {
+            font-size: 0.75rem;
+          }
         }
       `}</style>
 
@@ -325,7 +471,57 @@ const Login = () => {
               <p className="login-subtitle">Login to your LifeLink account</p>
             </div>
 
+            <div className="user-type-section">
+              <label className="user-type-label">Select Your Account Type</label>
+              <div className="user-type-buttons">
+                <button
+                  type="button"
+                  className={`user-type-btn ${formData.userType === 'donor' ? 'active' : ''}`}
+                  onClick={() => handleUserTypeSelect('donor')}
+                >
+                  <div className="user-type-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                      <path d="M16 28l-1.33-1.2C9.07 22.27 6 19.52 6 16.13c0-2.05 1.61-3.67 3.67-3.67 1.16 0 2.27.54 3 1.39.73-.85 1.84-1.39 3-1.39 2.06 0 3.67 1.62 3.67 3.67 0 3.39-3.07 6.14-8.67 10.67L16 28z" fill={formData.userType === 'donor' ? '#2196F3' : '#666'}/>
+                    </svg>
+                  </div>
+                  <span className="user-type-text">Donor</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`user-type-btn ${formData.userType === 'patient' ? 'active' : ''}`}
+                  onClick={() => handleUserTypeSelect('patient')}
+                >
+                  <div className="user-type-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                      <path d="M16 6C10.48 6 6 10.48 6 16s4.48 10 10 10 10-4.48 10-10S21.52 6 16 6zm5 11h-4v4h-2v-4h-4v-2h4v-4h2v4h4v2z" fill={formData.userType === 'patient' ? '#2196F3' : '#666'}/>
+                    </svg>
+                  </div>
+                  <span className="user-type-text">Patient</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`user-type-btn ${formData.userType === 'bloodbank' ? 'active' : ''}`}
+                  onClick={() => handleUserTypeSelect('bloodbank')}
+                >
+                  <div className="user-type-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                      <path d="M21 8h-2V6h-6v2H11c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 13c-1.66 0-3-1.34-3-3 0-1.66 1.34-3 3-3s3 1.34 3 3c0 1.66-1.34 3-3 3z" fill={formData.userType === 'bloodbank' ? '#2196F3' : '#666'}/>
+                    </svg>
+                  </div>
+                  <span className="user-type-text">Blood Bank</span>
+                </button>
+              </div>
+            </div>
+
             <form onSubmit={handleSubmit} className="login-form">
+              {error && (
+                <div className="error-message">
+                  {error}
+                </div>
+              )}
+              
               <div className="form-group">
                 <label htmlFor="email">Email Address</label>
                 <input

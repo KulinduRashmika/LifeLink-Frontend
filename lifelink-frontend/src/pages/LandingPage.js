@@ -1,11 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 import './LandingPage.css';
 import checkIcon from "./assets/Landpage.png";
 import checkIcon2 from "./assets/Mission.png";
 
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="landing-page">
       {/* Hero Section */}
@@ -34,7 +37,7 @@ const LandingPage = () => {
                 </svg>
                 Request Blood / Organ
               </button>
-              <button className="btn-emergency">
+              <button className="btn-emergency" onClick={() => navigate('/critical-emergency')}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/>
                   <path d="M13 5h-2V3H9v2H7v2h2v2h2V7h2V5z"/>

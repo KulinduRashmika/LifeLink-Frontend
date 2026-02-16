@@ -8,6 +8,7 @@ import DonorNavbar from './components/DonorNavbar';
 import LandingPage from './pages/LandingPage';
 import RoleSelection from './pages/RoleSelection';
 import Login from './pages/Login';
+import CriticalEmergencyrequest from './pages/CriticalEmergencyrequest';
 
 // Registration Pages
 import DonorRegistration from './pages/DonorRegistration';
@@ -28,6 +29,9 @@ import EmergencyRequest from './pages/Emergencyrequest';
 import Myrequests from './pages/Myrequests';
 import PatientMessage from './pages/PatientMessage';
 
+//Admin
+import AdminDashboard from './pages/Admindashboard';
+
 import './App.css';
 
 
@@ -45,7 +49,11 @@ function ConditionalNavbar() {
   ];
 
   // Pages that don't show any navbar
-  const noNavbarPages = ['/login'];
+ const noNavbarPages = [
+  '/login',
+  '/critical-emergency'
+];
+
 
   if (noNavbarPages.includes(location.pathname)) {
     return null;
@@ -70,6 +78,7 @@ function AppContent() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/join" element={<RoleSelection />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/critical-emergency" element={<CriticalEmergencyrequest />} />
 
         {/* Registration Routes */}
         <Route path="/register/donor" element={<DonorRegistration />} />
@@ -89,6 +98,9 @@ function AppContent() {
         <Route path="/patient/emergency-request" element={<EmergencyRequest />} />
         <Route path="/myrequests" element={<Myrequests />} />
         <Route path="/patient/messages" element={<PatientMessage />} />
+
+        {/* ================= Admin Routes ================= */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
       </Routes>
     </div>
