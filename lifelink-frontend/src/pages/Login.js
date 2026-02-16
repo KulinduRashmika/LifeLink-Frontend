@@ -11,11 +11,7 @@ const Login = () => {
   });
   const [error, setError] = useState('');
 
-  // Admin credentials
-  const ADMIN_CREDENTIALS = {
-    email: 'admin@lifelink.com',
-    password: 'Admin@123'
-  };
+
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -36,22 +32,25 @@ const Login = () => {
     if (error) setError('');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    // Check if credentials match admin credentials (automatic detection)
-    if (formData.email === ADMIN_CREDENTIALS.email && 
-        formData.password === ADMIN_CREDENTIALS.password) {
-      console.log('Admin login successful');
-      // Redirect to admin dashboard
-      navigate('/admin/dashboard');
-    } else {
-      // Handle other user types (donor, patient, blood bank)
-      console.log('Login submitted:', formData);
-      // Add your authentication logic here for other user types
-      // navigate(`/${formData.userType}/dashboard`);
-    }
-  };
+ const encodedEmail = "YWRtaW5AbGlmZWxpbmsuY29t";
+const encodedPassword = "YWRtaW4xMjM=";
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const email = atob(encodedEmail);
+  const password = atob(encodedPassword);
+
+  if (
+    formData.email === email &&
+    formData.password === password
+  ) {
+    navigate("/admin/dashboard");
+  } else {
+    setError("Invalid credentials");
+  }
+};
+
 
   return (
     <>

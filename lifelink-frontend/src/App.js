@@ -29,6 +29,10 @@ import EmergencyRequest from './pages/Emergencyrequest';
 import Myrequests from './pages/Myrequests';
 import PatientMessage from './pages/PatientMessage';
 
+// Blood Bank Pages
+
+
+
 //Admin
 import AdminDashboard from './pages/Admindashboard';
 
@@ -101,6 +105,10 @@ function AppContent() {
 
         {/* ================= Admin Routes ================= */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+    
+        {/* ================= Blood Bank Routes ================= */}
+        
+
 
       </Routes>
     </div>
