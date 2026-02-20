@@ -31,10 +31,17 @@ import PatientMessage from './pages/PatientMessage';
 
 // Blood Bank Pages
 import BloodBankDashboard from './pages/BloodBankDashboard';
+import BloodBankInventry from './pages/BloodBankInventry';
+import BloodBankDispatch from './pages/BloodBankDispatch';
+import BloodBankReport from './pages/BloodBankReport';
+import BloodBankSetting from './pages/BloodBankSetting';
 
 
 //Admin
 import AdminDashboard from './pages/Admindashboard';
+import AdminUserManage from './pages/AdminUserManage';
+import Adminhospitalmanage from './pages/Adminhospitalmanage';
+import Adminalerts from './pages/adminalerts';
 
 import './App.css';
 
@@ -105,9 +112,19 @@ function AppContent() {
 
         {/* ================= Admin Routes ================= */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/usermanage" element={<AdminUserManage />} />
+        <Route path="/admin/hospitalmanage" element={<Adminhospitalmanage />} />
+        <Route path="/admin/alerts" element={<Adminalerts />} />
     
         {/* ================= Blood Bank Routes ================= */}
         <Route path="/bloodbank/dashboard" element={<BloodBankDashboard />} />
+        <Route path="/bloodbank/inventory" element={<BloodBankInventry/>}/>
+        <Route path="/bloodbank/dispatch" element={<BloodBankDispatch/>}/>
+        <Route path="/bloodbank/reports" element={<BloodBankReport/>}/>
+         <Route path="/bloodbank/setting" element={<BloodBankSetting/>}/>
+        
+        
+
 
 
       </Routes>
