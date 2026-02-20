@@ -30,7 +30,7 @@ import Myrequests from './pages/Myrequests';
 import PatientMessage from './pages/PatientMessage';
 
 // Blood Bank Pages
-
+import BloodBankDashboard from './pages/BloodBankDashboard';
 
 
 //Admin
@@ -107,7 +107,7 @@ function AppContent() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
     
         {/* ================= Blood Bank Routes ================= */}
-        
+        <Route path="/bloodbank/dashboard" element={<BloodBankDashboard />} />
 
 
       </Routes>
