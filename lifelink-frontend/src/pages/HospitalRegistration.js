@@ -126,7 +126,7 @@ const HospitalRegistration = () => {
       formDataToSend.append('verificationDoc', formData.verificationDoc);
 
       // Send to backend
-      const response = await fetch('http://localhost:8080/api/hospitals/register', {
+      const response = await fetch('http://localhost:8083/api/hospitals/register', {
         method: 'POST',
         body: formDataToSend
       });

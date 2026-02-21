@@ -11,15 +11,12 @@ const Login = () => {
   });
   const [error, setError] = useState('');
 
-
-
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    // Clear error when user types
     if (error) setError('');
   };
 
@@ -28,55 +25,96 @@ const Login = () => {
       ...prev,
       userType: type
     }));
-    // Clear error when user changes type
     if (error) setError('');
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // 🔐 Static Admin Login (Temporary)
-  const encodedEmail = "YWRtaW5AbGlmZWxpbmsuY29t";
-  const encodedPassword = "YWRtaW4xMjM=";
+    // 🔐 Static Admin Login (Temporary)
+    const encodedEmail = "YWRtaW5AbGlmZWxpbmsuY29t";
+    const encodedPassword = "YWRtaW4xMjM=";
 
-  const adminEmail = atob(encodedEmail);
-  const adminPassword = atob(encodedPassword);
+    const adminEmail = atob(encodedEmail);
+    const adminPassword = atob(encodedPassword);
 
-  if (
-    formData.email === adminEmail &&
-    formData.password === adminPassword
-  ) {
-    navigate("/admin-dashboard");
-    return;
-  }
+    if (formData.email === adminEmail && formData.password === adminPassword) {
+      navigate("/admin/dashboard");
+      return;
+    }
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // 👤 Donor Login (Backend)
   try {
     const response = await fetch(
       "http://localhost:8081/api/donor/login",
       {
+=======
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+    try {
+      // ✅ Choose endpoint based on userType
+      let endpoint = "";
+      let successRoute = "";
+
+      if (formData.userType === "donor") {
+        endpoint = "http://localhost:8081/api/donors/login";
+        successRoute = "/dashboard/donor";
+      } else if (formData.userType === "bloodbank") {
+        // ✅ Hospital/Blood Bank backend
+        endpoint = "http://localhost:8083/api/hospitals/login";
+        successRoute = "/bloodbank/dashboard"; // change if your route differs
+      } else if (formData.userType === "patient") {
+        setError("Patient login is not implemented yet.");
+        return;
+      }
+
+      const response = await fetch(endpoint, {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
         }),
+      });
+
+      // ✅ Support both JSON and text responses
+      const contentType = response.headers.get("content-type") || "";
+      let data;
+
+      if (contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        data = { success: response.ok, message: text };
       }
-    );
 
-    const data = await response.text();
+      // ✅ Determine success
+      const isSuccess = response.ok && (data.success === undefined || data.success === true);
 
-    if (response.ok) {
-      navigate("/dashboard/donor");
-    } else {
-      setError(data);
+      if (isSuccess) {
+        // Optional: store login info
+        // localStorage.setItem("userType", formData.userType);
+
+        navigate(successRoute);
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (err) {
+      setError("Server not reachable");
     }
-  } catch (err) {
-    setError("Server not reachable");
-  }
-};
+  };
 
   return (
     <>
@@ -122,12 +160,8 @@ const handleSubmit = async (e) => {
         }
 
         @keyframes pulse {
-          0%, 100% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.05);
-          }
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
         }
 
         .login-title {
@@ -218,20 +252,6 @@ const handleSubmit = async (e) => {
           animation: shake 0.3s;
         }
 
-        .info-message {
-          background: #E3F2FD;
-          color: #1565C0;
-          padding: 0.875rem 1rem;
-          border-radius: 10px;
-          font-size: 0.875rem;
-          font-weight: 500;
-          border-left: 4px solid #2196F3;
-        }
-
-        .info-message strong {
-          font-weight: 700;
-        }
-
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
           25% { transform: translateX(-5px); }
@@ -272,10 +292,6 @@ const handleSubmit = async (e) => {
           box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
         }
 
-        .login-form .form-group input::placeholder {
-          color: #999;
-        }
-
         .form-options {
           display: flex;
           justify-content: space-between;
@@ -304,7 +320,6 @@ const handleSubmit = async (e) => {
           color: #2196F3;
           text-decoration: none;
           font-weight: 600;
-          transition: color 0.3s;
         }
 
         .forgot-link:hover {
@@ -350,7 +365,6 @@ const handleSubmit = async (e) => {
           color: #2196F3;
           font-weight: 600;
           text-decoration: none;
-          transition: color 0.3s;
         }
 
         .register-link:hover {
@@ -410,75 +424,25 @@ const handleSubmit = async (e) => {
         }
 
         @media (max-width: 968px) {
-          .login-container {
-            grid-template-columns: 1fr;
-          }
-
-          .login-sidebar {
-            order: -1;
-            padding: 2rem;
-          }
-
-          .sidebar-content h2 {
-            font-size: 1.5rem;
-          }
-
-          .stats-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-          }
-
-          .stat {
-            padding: 1rem 0.5rem;
-          }
-
-          .stat-number {
-            font-size: 1.25rem;
-          }
-
-          .stat-label {
-            font-size: 0.65rem;
-          }
+          .login-container { grid-template-columns: 1fr; }
+          .login-sidebar { order: -1; padding: 2rem; }
+          .sidebar-content h2 { font-size: 1.5rem; }
+          .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+          .stat { padding: 1rem 0.5rem; }
+          .stat-number { font-size: 1.25rem; }
+          .stat-label { font-size: 0.65rem; }
         }
 
         @media (max-width: 768px) {
-          .login-page {
-            padding: 1rem;
-          }
-
-          .login-card {
-            padding: 2rem 1.5rem;
-          }
-
-          .login-title {
-            font-size: 1.5rem;
-          }
-
-          .login-btn {
-            font-size: 1rem;
-          }
-
-          .stats-grid {
-            gap: 0.75rem;
-          }
-
-          .user-type-buttons {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-          }
-
-          .user-type-btn {
-            padding: 0.75rem 0.5rem;
-          }
-
-          .user-type-icon {
-            width: 28px;
-            height: 28px;
-          }
-
-          .user-type-text {
-            font-size: 0.75rem;
-          }
+          .login-page { padding: 1rem; }
+          .login-card { padding: 2rem 1.5rem; }
+          .login-title { font-size: 1.5rem; }
+          .login-btn { font-size: 1rem; }
+          .stats-grid { gap: 0.75rem; }
+          .user-type-buttons { gap: 0.5rem; }
+          .user-type-btn { padding: 0.75rem 0.5rem; }
+          .user-type-icon { width: 28px; height: 28px; }
+          .user-type-text { font-size: 0.75rem; }
         }
       `}</style>
 
@@ -488,8 +452,8 @@ const handleSubmit = async (e) => {
             <div className="login-header">
               <div className="login-logo">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <circle cx="24" cy="24" r="24" fill="#2196F3"/>
-                  <path d="M24 34l-2-1.8C15.6 26.6 12 23.2 12 19c0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09C23.09 14.31 24.76 13.5 26.5 13.5 29.58 13.5 32 15.92 32 19c0 4.2-3.6 7.6-10 12.2L24 34z" fill="white"/>
+                  <circle cx="24" cy="24" r="24" fill="#2196F3" />
+                  <path d="M24 34l-2-1.8C15.6 26.6 12 23.2 12 19c0-3.08 2.42-5.5 5.5-5.5 1.74 0 3.41.81 4.5 2.09C23.09 14.31 24.76 13.5 26.5 13.5 29.58 13.5 32 15.92 32 19c0 4.2-3.6 7.6-10 12.2L24 34z" fill="white" />
                 </svg>
               </div>
               <h1 className="login-title">Welcome Back</h1>
@@ -506,7 +470,7 @@ const handleSubmit = async (e) => {
                 >
                   <div className="user-type-icon">
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                      <path d="M16 28l-1.33-1.2C9.07 22.27 6 19.52 6 16.13c0-2.05 1.61-3.67 3.67-3.67 1.16 0 2.27.54 3 1.39.73-.85 1.84-1.39 3-1.39 2.06 0 3.67 1.62 3.67 3.67 0 3.39-3.07 6.14-8.67 10.67L16 28z" fill={formData.userType === 'donor' ? '#2196F3' : '#666'}/>
+                      <path d="M16 28l-1.33-1.2C9.07 22.27 6 19.52 6 16.13c0-2.05 1.61-3.67 3.67-3.67 1.16 0 2.27.54 3 1.39.73-.85 1.84-1.39 3-1.39 2.06 0 3.67 1.62 3.67 3.67 0 3.39-3.07 6.14-8.67 10.67L16 28z" fill={formData.userType === 'donor' ? '#2196F3' : '#666'} />
                     </svg>
                   </div>
                   <span className="user-type-text">Donor</span>
@@ -519,7 +483,7 @@ const handleSubmit = async (e) => {
                 >
                   <div className="user-type-icon">
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                      <path d="M16 6C10.48 6 6 10.48 6 16s4.48 10 10 10 10-4.48 10-10S21.52 6 16 6zm5 11h-4v4h-2v-4h-4v-2h4v-4h2v4h4v2z" fill={formData.userType === 'patient' ? '#2196F3' : '#666'}/>
+                      <path d="M16 6C10.48 6 6 10.48 6 16s4.48 10 10 10 10-4.48 10-10S21.52 6 16 6zm5 11h-4v4h-2v-4h-4v-2h4v-4h2v4h4v2z" fill={formData.userType === 'patient' ? '#2196F3' : '#666'} />
                     </svg>
                   </div>
                   <span className="user-type-text">Patient</span>
@@ -532,7 +496,7 @@ const handleSubmit = async (e) => {
                 >
                   <div className="user-type-icon">
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                      <path d="M21 8h-2V6h-6v2H11c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 13c-1.66 0-3-1.34-3-3 0-1.66 1.34-3 3-3s3 1.34 3 3c0 1.66-1.34 3-3 3z" fill={formData.userType === 'bloodbank' ? '#2196F3' : '#666'}/>
+                      <path d="M21 8h-2V6h-6v2H11c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 13c-1.66 0-3-1.34-3-3 0-1.66 1.34-3 3-3s3 1.34 3 3c0 1.66-1.34 3-3 3z" fill={formData.userType === 'bloodbank' ? '#2196F3' : '#666'} />
                     </svg>
                   </div>
                   <span className="user-type-text">Blood Bank</span>
@@ -541,12 +505,8 @@ const handleSubmit = async (e) => {
             </div>
 
             <form onSubmit={handleSubmit} className="login-form">
-              {error && (
-                <div className="error-message">
-                  {error}
-                </div>
-              )}
-              
+              {error && <div className="error-message">{error}</div>}
+
               <div className="form-group">
                 <label htmlFor="email">Email Address</label>
                 <input
@@ -590,14 +550,17 @@ const handleSubmit = async (e) => {
 
               <button type="submit" className="login-btn">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l7.59-7.59L18 6l-9 9z"/>
+                  <path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l7.59-7.59L18 6l-9 9z" />
                 </svg>
                 Login
               </button>
             </form>
 
             <div className="login-footer">
-              <p>Don't have an account? <Link to="/join" className="register-link">Register here</Link></p>
+              <p>
+                Don't have an account?{" "}
+                <Link to="/join" className="register-link">Register here</Link>
+              </p>
             </div>
           </div>
 
@@ -621,6 +584,7 @@ const handleSubmit = async (e) => {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </>
