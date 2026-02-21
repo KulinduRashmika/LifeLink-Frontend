@@ -18,7 +18,7 @@ const ReportsAnalytics = () => {
   { key: 'inventory', icon: '📦', label: 'Inventory', path: '/bloodbank/inventory' },
   { key: 'dispatch', icon: '🚚', label: 'Dispatch', path: '/bloodbank/dispatch' },
   { key: 'reports', icon: '📊', label: 'Reports', path: '/bloodbank/reports' },
-  { key: 'settings', icon: '⚙️', label: 'Settings', path: '/bloodbank/settings' },
+  { key: 'settings', icon: '⚙️', label: 'Settings', path: '/bloodbank/setting' },
   ];
 
   const donationTrends = [

@@ -11,6 +11,8 @@ const HospitalRegistration = () => {
     officialEmail: '',
     contactNumber: '',
     physicalAddress: '',
+    password: '',
+    confirmPassword: '',
     facilities: {
       bloodCollection: false,
       organHarvesting: false,
@@ -21,12 +23,19 @@ const HospitalRegistration = () => {
     verificationDoc: null
   });
 
+  const [passwordError, setPasswordError] = useState('');
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+
+    // Clear password error when typing in password fields
+    if (name === 'password' || name === 'confirmPassword') {
+      setPasswordError('');
+    }
   };
 
   const handleFacilityChange = (facility) => {
@@ -46,9 +55,31 @@ const HospitalRegistration = () => {
     }));
   };
 
+  const validatePassword = () => {
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordError('Passwords do not match');
+      return false;
+    }
+    if (formData.password.length < 8) {
+      setPasswordError('Password must be at least 8 characters long');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Hospital registration submitted:', formData);
+    
+    if (!validatePassword()) {
+      return;
+    }
+    
+    console.log('Hospital registration submitted:', {
+      ...formData,
+      password: '[REDACTED]', // Don't log actual password
+      confirmPassword: '[REDACTED]'
+    });
+    // Add your API call here
   };
 
   return (
@@ -168,6 +199,55 @@ const HospitalRegistration = () => {
                   required
                 />
               </div>
+            </div>
+
+            {/* Account Security Section - New */}
+            <div className="form-section">
+              <div className="section-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+              </div>
+              <h2 className="section-title">Account Security</h2>
+              
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                    minLength="8"
+                  />
+                  <small className="input-hint">Minimum 8 characters</small>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Re-enter password"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    required
+                    minLength="8"
+                  />
+                </div>
+              </div>
+              {passwordError && (
+                <div className="error-message">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm1 13H7v-2h2v2zm0-4H7V4h2v5z"/>
+                  </svg>
+                  <span>{passwordError}</span>
+                </div>
+              )}
             </div>
 
             {/* Facilities & Services Section */}
