@@ -43,19 +43,6 @@ const Login = () => {
       return;
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  // 👤 Donor Login (Backend)
-  try {
-    const response = await fetch(
-      "http://localhost:8081/api/donor/login",
-      {
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     try {
       // ✅ Choose endpoint based on userType
       let endpoint = "";
@@ -74,13 +61,6 @@ const Login = () => {
       }
 
       const response = await fetch(endpoint, {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
