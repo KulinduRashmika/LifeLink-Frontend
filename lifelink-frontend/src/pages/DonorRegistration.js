@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './RegistrationPages.css';
+import axios from 'axios';
 
 const DonorRegistration = () => {
   const [formData, setFormData] = useState({
@@ -50,11 +51,32 @@ const DonorRegistration = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Donor registration submitted:', formData);
-    // Add registration logic here
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const data = new FormData();
+
+  data.append(
+    "donor",
+    new Blob([JSON.stringify(formData)], {
+      type: "application/json",
+    })
+  );
+
+  data.append("medicalReport", formData.medicalReport);
+
+  try {
+    await axios.post(
+      "http://localhost:8081/api/donors/register",
+      data
+    );
+
+    alert("Registration successful!");
+  } catch (error) {
+    console.error(error);
+    alert("Registration failed");
+  }
+};
 
   return (
     <div className="registration-page">

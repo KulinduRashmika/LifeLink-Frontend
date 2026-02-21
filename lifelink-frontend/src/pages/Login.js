@@ -32,25 +32,51 @@ const Login = () => {
     if (error) setError('');
   };
 
- const encodedEmail = "YWRtaW5AbGlmZWxpbmsuY29t";
-const encodedPassword = "YWRtaW4xMjM=";
-
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const email = atob(encodedEmail);
-  const password = atob(encodedPassword);
+  // 🔐 Static Admin Login (Temporary)
+  const encodedEmail = "YWRtaW5AbGlmZWxpbmsuY29t";
+  const encodedPassword = "YWRtaW4xMjM=";
+
+  const adminEmail = atob(encodedEmail);
+  const adminPassword = atob(encodedPassword);
 
   if (
-    formData.email === email &&
-    formData.password === password
+    formData.email === adminEmail &&
+    formData.password === adminPassword
   ) {
-    navigate("/admin/dashboard");
-  } else {
-    setError("Invalid credentials");
+    navigate("/admin-dashboard");
+    return;
+  }
+
+  // 👤 Donor Login (Backend)
+  try {
+    const response = await fetch(
+      "http://localhost:8081/api/donors/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      }
+    );
+
+    const data = await response.text();
+
+    if (response.ok) {
+      navigate("/dashboard/donor");
+    } else {
+      setError(data);
+    }
+  } catch (err) {
+    setError("Server not reachable");
   }
 };
-
 
   return (
     <>
