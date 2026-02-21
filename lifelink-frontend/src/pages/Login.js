@@ -49,7 +49,7 @@ const Login = () => {
       let successRoute = "";
 
       if (formData.userType === "donor") {
-        endpoint = "http://localhost:8081/api/donors/login";
+        endpoint = "http://localhost:8081/api/donor/login";
         successRoute = "/dashboard/donor";
       } else if (formData.userType === "bloodbank") {
         // ✅ Hospital/Blood Bank backend
