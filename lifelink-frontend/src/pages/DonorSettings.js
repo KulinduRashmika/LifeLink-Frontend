@@ -1,31 +1,80 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const Settings = () => {
+const DonorSettings = () => {
+
   const [formData, setFormData] = useState({
-    fullName: 'John Doe',
-    nicNumber: '199012345678',
-    phone: '+1 234 567 890',
-    email: 'john.doe@example.com',
-    address: '123 Medical Plaza, Health Street, West District'
+    fullName: "",
+    nicNumber: "",
+    phone: "",
+    email: "",
+    address: ""
   });
+
+  // Fetch donor profile on load
+ useEffect(() => {
+  const fetchDonorDetails = async () => {
+    try {
+      const email = localStorage.getItem("email");
+
+      const response = await fetch(
+        `http://localhost:8081/api/donor/profile?email=${email}`
+      );
+
+      if (!response.ok) {
+        console.log("Response not OK:", response.status);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Profile Data:", data);
+
+      setFormData({
+        fullName: data.fullName || "",
+        nicNumber: data.nicNumber || "",
+        phone: data.contactNumber || "",   // 🔥 FIXED
+        email: data.email || "",
+        address: data.location || ""       // 🔥 FIXED
+      });
+
+    } catch (error) {
+      console.error("Error fetching donor details:", error);
+    }
+  };
+
+  fetchDonorDetails();
+}, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value
     }));
   };
 
   const handleCancel = () => {
-    // Reset form
+    window.location.reload();
   };
 
-  const handleUpdate = () => {
-    // Save changes
-    alert('Address updated successfully!');
-  };
+const handleUpdate = async () => {
+  try {
+    await fetch("http://localhost:8081/api/donor/update-address", {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ address: formData.address })
+    });
+
+    alert("Address updated successfully!");
+  } catch (error) {
+    console.error("Error updating address:", error);
+  }
+};
+
+
 
   return (
     <>
@@ -554,11 +603,20 @@ const Settings = () => {
             </button>
 
             <div className="user-badge">
-              <div className="user-name">
-                <strong>John Doe</strong>
-              </div>
-              <div className="user-avatar-circle">JD</div>
-            </div>
+  <div className="user-name">
+    <strong>{formData.fullName || "User"}</strong>
+  </div>
+
+  <div className="user-avatar-circle">
+    {formData.fullName
+      ? formData.fullName
+          .split(" ")
+          .map(name => name[0])
+          .join("")
+          .toUpperCase()
+      : "U"}
+  </div>
+</div>
           </div>
 
           {/* Profile Details */}
@@ -698,4 +756,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default DonorSettings;

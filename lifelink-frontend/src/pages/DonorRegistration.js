@@ -67,7 +67,7 @@ const handleSubmit = async (e) => {
 
   try {
     await axios.post(
-      "http://localhost:8081/api/donors/register",
+      "http://localhost:8081/api/donor/register",
       data
     );
 

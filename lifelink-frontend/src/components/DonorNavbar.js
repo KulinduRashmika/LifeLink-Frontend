@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const DonorNavbar = () => {
   const location = useLocation();
+  const [initials, setInitials] = useState("U");
+
+useEffect(() => {
+  const email = localStorage.getItem("email");
+
+  if (email) {
+    const namePart = email.split("@")[0]; // get part before @
+    
+    const generatedInitials = namePart
+      .split(".") // if email like john.doe
+      .map(word => word[0])
+      .join("")
+      .toUpperCase();
+
+    setInitials(generatedInitials);
+  }
+}, []);
 
   return (
     <>
@@ -234,7 +251,7 @@ const DonorNavbar = () => {
             <span className="notification-badge"></span>
           </button>
 
-          <div className="navbar-user-badge">JD</div>
+          <div className="navbar-user-badge">{initials}</div>
         </div>
       </nav>
     </>

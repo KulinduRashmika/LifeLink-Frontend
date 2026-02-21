@@ -1,7 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 
+
+
 const DonorDashboard = () => {
+    const [fullName, setFullName] = useState("");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const email = localStorage.getItem("email");
+
+        if (!email) return;
+
+        const response = await fetch(
+          `http://localhost:8081/api/donor/profile?email=${email}`
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        setFullName(data.fullName || "");
+      } catch (error) {
+        console.error("Error loading profile:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  const today = new Date();
+
+const formattedDate = today.toLocaleDateString("en-US", {
+  month: "short",
+  day: "2-digit",
+  year: "numeric",
+});
+
   return (
     <>
       <style>{`
@@ -629,27 +664,40 @@ const DonorDashboard = () => {
               />
             </div>
             <div className="header-actions">
-              <div className="user-info">
-                <div className="user-details">
-                  <div className="user-name">John Doe</div>
-                  <div className="user-role">
-                    <span style={{fontSize: '10px'}}>●</span> Donor
-                  </div>
-                </div>
-                <div className="user-avatar">JD</div>
-              </div>
-            </div>
+  <div className="user-info">
+    <div className="user-details">
+      <div className="user-name">
+        {fullName || "User"}
+      </div>
+      <div className="user-role">
+        <span style={{ fontSize: "10px" }}>●</span> Donor
+      </div>
+    </div>
+
+    <div className="user-avatar">
+      {fullName
+        ? fullName
+            .split(" ")
+            .map(name => name[0])
+            .join("")
+            .toUpperCase()
+        : "U"}
+    </div>
+  </div>
+</div>
           </header>
 
           {/* Welcome Section */}
           <section className="welcome-section">
-            <h1 className="welcome-title">Welcome back, John!</h1>
+            <h1 className="welcome-title">
+  Welcome back, {fullName ? fullName.split(" ")[0] : "Donor"}!
+</h1>
             <p className="welcome-subtitle">You're making a real difference. Check your latest status below.</p>
             <div className="date-badge">
               <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"/>
               </svg>
-              Today is Oct 28, 2023
+              Today is {formattedDate}
             </div>
           </section>
 
